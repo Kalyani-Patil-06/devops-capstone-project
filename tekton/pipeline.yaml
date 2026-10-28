@@ -1,0 +1,33 @@
+# Template only: install/configure the referenced Tasks and workspace before use.
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: accounts-ci
+spec:
+  workspaces:
+    - name: source
+  params:
+    - name: repo-url
+      type: string
+      description: Git repository URL
+  tasks:
+    - name: clone
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.repo-url)
+        - name: revision
+          value: main
+        - name: deleteExisting
+          value: "true"
+      workspaces:
+        - name: output
+          workspace: source
+    - name: test
+      runAfter: [clone]
+      taskRef:
+        name: accounts-test
+      workspaces:
+        - name: source
+          workspace: source
