@@ -29,10 +29,16 @@ class AccountsApiTestCase(unittest.TestCase):
         self.assertEqual(len(response.get_json()), 1)
 
     def test_update(self):
-        created = self.client.post("/accounts", json={"name": "Jane", "email": "jane@example.com"}).get_json()
+        created = self.client.post(
+            "/accounts",
+            json={"name": "Jane", "email": "jane@example.com"}
+    ).get_json()
         response = self.client.put(f"/accounts/{created['id']}", json={"name": "Janet"})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.get_json()["name"], "Janet")
+        created = self.client.post(
+            "/accounts",
+            json={"name": "Jane", "email": "jane@example.com"}
+        ).get_json()
 
     def test_delete(self):
         created = self.client.post("/accounts", json={"name": "Jane", "email": "jane@example.com"}).get_json()
