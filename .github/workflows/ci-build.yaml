@@ -21,4 +21,4 @@ jobs:
       - name: Lint
         run: flake8 service tests
       - name: Test
-        run: nosetests
+        run: python -m unittest discover -s tests -v
