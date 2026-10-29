@@ -1,6 +1,8 @@
-# Accounts Microservice
+# DevOps Capstone: Accounts Microservice
 
-Starter project for a Flask-based Accounts REST API and DevOps capstone activities.
+[![Build Status](https://github.com/Kalyani-Patil-06/devops-capstone-project/actions/workflows/ci-build.yaml/badge.svg)](https://github.com/Kalyani-Patil-06/devops-capstone-project/actions/workflows/ci-build.yaml)
+
+A Flask-based Accounts REST API for the DevOps Capstone project. This repository contains the microservice, automated tests, CI workflow, Docker configuration, and Kubernetes and Tekton deployment resources.
 
 ## Run locally
 
@@ -38,6 +40,8 @@ flake8 service tests
 nosetests
 ```
 
+Run these commands in your configured project environment. The GitHub Actions workflow should also run the required checks.
+
 ## Container
 
 ```bash
@@ -45,6 +49,16 @@ docker build -t accounts:local .
 docker run --rm -p 8080:8080 accounts:local
 ```
 
-## Important submission note
+## Project contents
 
-This is a starter scaffold, not evidence that every lab task has been completed. Replace placeholders, run the actual lab activities, and capture genuine screenshots/output from your own GitHub, Kubernetes, and Tekton environment. The API uses in-memory storage and resets when the process restarts. Kubernetes and Tekton files are templates that may need adaptation to your cluster and registry.
+- `service/` — Flask application and account service code
+- `tests/` — automated tests
+- `.github/workflows/` — GitHub Actions workflow
+- `Dockerfile` — container image configuration
+- `kubernetes/` — Kubernetes configuration
+- `tekton/` — Tekton pipeline resources
+- `user-story.md` — project user stories
+
+## Note
+
+The API currently uses in-memory storage, so account data resets when the process restarts. Kubernetes and Tekton configurations may require adjustments for your cluster and container registry.
