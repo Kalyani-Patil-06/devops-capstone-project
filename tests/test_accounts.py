@@ -28,23 +28,35 @@ class AccountsApiTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.get_json()), 1)
 
-    def test_update(self):
-        created = self.client.post(
-            "/accounts",
-            json={"name": "Jane", "email": "jane@example.com"}
-    ).get_json()
-        response = self.client.put(f"/accounts/{created['id']}", json={"name": "Janet"})
-        self.assertEqual(response.status_code, 200)
-        created = self.client.post(
-            "/accounts",
-            json={"name": "Jane", "email": "jane@example.com"}
-        ).get_json()
+        def test_update(self):
+            created = self.client.post(
+                "/accounts",
+                json={"name": "Jane", "email": "jane@example.com"}
+            ).get_json()
+    
+            response = self.client.put(
+                f"/accounts/{created['id']}",
+                json={"name": "Janet"}
+            )
 
-    def test_delete(self):
-        created = self.client.post("/accounts", json={"name": "Jane", "email": "jane@example.com"}).get_json()
-        response = self.client.delete(f"/accounts/{created['id']}")
-        self.assertEqual(response.status_code, 204)
-        self.assertEqual(self.client.get(f"/accounts/{created['id']}").status_code, 404)
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.get_json()["name"], "Janet")
+
+        def test_delete(self):
+            created = self.client.post(
+                "/accounts",
+                json={"name": "Jane", "email": "jane@example.com"}
+            ).get_json()
+    
+            response = self.client.delete(
+                f"/accounts/{created['id']}"
+            )
+    
+            self.assertEqual(response.status_code, 204)
+            self.assertEqual(
+                self.client.get(f"/accounts/{created['id']}").status_code,
+                404
+            )
 
     def test_missing_required_fields(self):
         response = self.client.post("/accounts", json={"name": "Jane"})
